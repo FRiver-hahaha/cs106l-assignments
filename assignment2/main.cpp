@@ -13,8 +13,10 @@
 #include <set>
 #include <string>
 #include <unordered_set>
+#include <sstream>
+#include <random>
 
-std::string kYourName = "STUDENT TODO"; // Don't forget to change this!
+std::string kYourName = "Louis Armstrong"; // Don't forget to change this!
 
 /**
  * Takes in a file name and returns a set containing all of the applicant names as a set.
@@ -28,7 +30,26 @@ std::string kYourName = "STUDENT TODO"; // Don't forget to change this!
  * to also change the corresponding functions in `utils.h`.
  */
 std::set<std::string> get_applicants(std::string filename) {
-  // STUDENT TODO: Implement this function.
+  std::set<std::string> tempSet;
+  std::ifstream infile(filename);
+  std::string tempName;
+  while(std::getline(infile, tempName)) {
+    tempSet.insert(tempName);
+  }
+  infile.close();
+  return tempSet;
+}
+
+std::string getTwoChar(const std::string& target) {
+  std::stringstream ss(target);
+  std::string firstName, lastName;
+  ss >> firstName >> lastName;
+
+  if(firstName.empty() || lastName.empty()) {
+    return "";
+  }
+
+  return std::string(1, firstName[0]) + std::string(1, lastName[0]);
 }
 
 /**
@@ -40,7 +61,15 @@ std::set<std::string> get_applicants(std::string filename) {
  * @return          A queue containing pointers to each matching name.
  */
 std::queue<const std::string*> find_matches(std::string name, std::set<std::string>& students) {
-  // STUDENT TODO: Implement this function.
+  std::queue<const std::string*> tempQue;
+
+  std::string targetName = getTwoChar(name);
+  for(const auto& p : students) {
+    if(getTwoChar(p) == targetName) {
+      tempQue.push(&p);
+    }
+  }
+  return tempQue;
 }
 
 /**
@@ -54,7 +83,26 @@ std::queue<const std::string*> find_matches(std::string name, std::set<std::stri
  *                Will return "NO MATCHES FOUND." if `matches` is empty.
  */
 std::string get_match(std::queue<const std::string*>& matches) {
-  // STUDENT TODO: Implement this function.
+  const std::string* result;
+  if(!matches.empty()) {
+     static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(0, matches.size() - 1);
+    int randomIndex = dis(gen);
+
+    for(int i = 0; i < randomIndex; ++i) {
+      matches.push(matches.front());
+      matches.pop();
+    }
+
+    result = matches.front();
+    matches.pop();
+  }else {
+    std::cout << "“NO MATCHES FOUND.”" << std::endl;
+    return "";
+  }
+
+  return *result;
 }
 
 /* #### Please don't remove this line! #### */
