@@ -356,7 +356,7 @@ def get_declarations(*files: os.PathLike):
         compiler="g++",
         compiler_path=compiler_path,
         working_directory=ASSIGNMENT_DIR,
-        ccflags="-std=c++11",
+        ccflags="-std=c++11 -U__STDCPP_BFLOAT16_T__ -U__BFLT16_DIG__",
     )
 
     try:

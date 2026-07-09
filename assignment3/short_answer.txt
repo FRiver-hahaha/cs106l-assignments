@@ -1,11 +1,8 @@
-Before submitting this file, make sure that there are no more TODO
-placeholders remaining in the file (and remove this comment too).
-
 Make a Class
 ------------
 
 Q1. What’s const-correctness and why is it important?
-A1. TODO
+A1. Const-correctness is the practice of using the `const` keyword to explicitly declare which variables, parameters, and member functions should not modify data. It is important because it allows the compiler to catch unintended modifications at compile time, making code safer and easier to reason about. It also serves as self-documentation, clearly communicating to other programmers which parts of the code are read-only and which may mutate state.
 
 Q2. Is your class const-correct? How do you know?
-A2. TODO
+A2. Yes, my class is const-correct. The getter functions (getAge and getId) are marked `const` because they only read private fields without modifying them, and the private helper function validate_age is also `const` since it only checks a parameter value. The setAge function is not marked const because it modifies the age field, which is appropriate — only functions that don't change the object's state should be const.
